@@ -1,19 +1,28 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db'); 
+const dbPromise = require('../db');
 
 class Property {
   static async create(property) {
+
+    const db = await dbPromise;
+  
     const query = `
-      INSERT INTO Properties (Title, Description, Price, Location, Type)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO Properties (Title, Description, Location, Latitude, Longitude, Type, PricePerNight, NumberOfBedrooms, NumberOfBathrooms, MaximumNumberOfGuests, HostID)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
       property.Title,
       property.Description,
-      property.Price,
       property.Location,
-      property.Type
+      property.Latitude,
+      property.Longitude,
+      property.Type,
+      property.PricePerNight,
+      property.NumberOfBedrooms,
+      property.NumberOfBathrooms,
+      property.MaximumNumberOfGuests,
+      property.HostID
     ];
-
+  
     try {
       const [result] = await db.query(query, values);
       return result.insertId;
@@ -24,6 +33,9 @@ class Property {
   }
 
   static async findById(propertyId) {
+
+    const db = await dbPromise;
+
     const query = `
       SELECT * FROM Properties WHERE ID = ?
     `;
@@ -43,11 +55,42 @@ class Property {
     }
   }
 
+  static async findAll() {
+
+    const db = await dbPromise;
+  
+    const query = 'SELECT * FROM Properties';
+  
+    try {
+      const [rows] = await db.query(query);
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error retrieving all properties');
+    }
+  }
+  
+
   static async updateById(propertyId, updateProperty) {
+    const db = await dbPromise;
+
     const query = `
-      UPDATE Properties SET ? WHERE ID = ?
+      UPDATE Properties SET Title = ?, Description = ?, Location = ?, Latitude = ?, Longitude = ?, Type = ?, PricePerNight = ?, NumberOfBedrooms = ?, NumberOfBathrooms = ?, MaximumNumberOfGuests = ?, HostID = ? WHERE ID = ?
     `;
-    const values = [updateProperty, propertyId];
+    const values = [
+      updateProperty.Title,
+      updateProperty.Description,
+      updateProperty.Location,
+      updateProperty.Latitude,
+      updateProperty.Longitude,
+      updateProperty.Type,
+      updateProperty.PricePerNight,
+      updateProperty.NumberOfBedrooms,
+      updateProperty.NumberOfBathrooms,
+      updateProperty.MaximumNumberOfGuests,
+      updateProperty.HostID,
+      propertyId
+    ];
 
     try {
       const [result] = await db.query(query, values);
@@ -64,6 +107,9 @@ class Property {
   }
 
   static async deleteById(propertyId) {
+
+    const db = await dbPromise;
+
     const query = `
       DELETE FROM Properties WHERE ID = ?
     `;
