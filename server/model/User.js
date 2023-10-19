@@ -35,6 +35,9 @@ class User {
   }
 
   static async findById(userId) {
+
+    const db = await dbPromise;
+
     const query = `
       SELECT * FROM Users WHERE ID = ?
     `;
@@ -55,6 +58,9 @@ class User {
   }
 
   static async updateById(userId, updateUser) {
+
+    const db = await dbPromise;
+
     const query = `
       UPDATE Users SET ? WHERE ID = ?
     `;
@@ -74,7 +80,24 @@ class User {
     }
   }
 
+
+  static async findAll() {
+    
+    const db = await dbPromise;
+  
+    try {
+      const [rows] = await db.query('SELECT * FROM Users');
+      return rows;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error retrieving all users');
+    }
+  }
+
   static async deleteById(userId) {
+
+    const db = await dbPromise;
+
     const query = `
       DELETE FROM Users WHERE ID = ?
     `;
