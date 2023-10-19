@@ -1,7 +1,16 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db'); 
+const dbPromise = require('../db');
 
 class User {
   static async create(user) {
+    const db = await dbPromise;
+
+    // Check if the email already exists
+    const checkEmailQuery = 'SELECT * FROM Users WHERE Email = ?';
+    const [rows] = await db.execute(checkEmailQuery, [user.Email]);
+    if (rows.length > 0) {
+      throw new Error('Email already exists');
+    }
+
     const query = `
       INSERT INTO Users (Name, Email, PasswordHash, PhoneNumber, ProfilePicture, Role, AboutMe)
       VALUES (?, ?, ?, ?, ?, ?, ?)

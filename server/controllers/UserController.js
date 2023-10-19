@@ -3,13 +3,15 @@ const User = require('../model/User.js');
 const createUser = async (req, res) => {
   try {
     const newUser = req.body;
+    console.log(newUser); // Log the newUser object
     const userId = await User.create(newUser);
     res.status(201).json({ userId });
   } catch (error) {
-    console.error(error);
+    console.error(error.message); // Log the specific error message
     res.status(500).json({ error: 'An error occurred while creating the user' });
   }
 };
+
 
 const getUser = async (req, res) => {
   try {
