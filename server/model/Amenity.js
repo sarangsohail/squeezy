@@ -1,7 +1,10 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db');
+const dbPromise = require('../db');
 
 class Amenity {
   static async create(amenity) {
+
+    const db = await dbPromise;
+
     const query = `
       INSERT INTO Amenities (Name)
       VALUES (?)
@@ -18,6 +21,9 @@ class Amenity {
   }
 
   static async updateById(amenityId, updateAmenity) {
+
+    const db = await dbPromise;
+
     const query = `
       UPDATE Amenities SET ? WHERE ID = ?
     `;
@@ -38,6 +44,9 @@ class Amenity {
   }
 
   static async deleteById(amenityId) {
+
+    const db = await dbPromise;
+
     const query = `
       DELETE FROM Amenities WHERE ID = ?
     `;
@@ -59,6 +68,3 @@ class Amenity {
 }
 
 module.exports = Amenity;
-
-
-}

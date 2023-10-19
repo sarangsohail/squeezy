@@ -1,4 +1,4 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db'); 
+const dbPromise = require('../db');
 
 class PropertyRating {
   static async create(propertyRating) {

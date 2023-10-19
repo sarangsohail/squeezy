@@ -1,4 +1,4 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db'); 
+const dbPromise = require('../db');
 
 class Notification {
   static async create(notification) {

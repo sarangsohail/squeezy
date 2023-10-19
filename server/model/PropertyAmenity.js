@@ -1,7 +1,11 @@
-const { db } = require('/Users/sarangsohail/Desktop/squeezy/server/db'); 
+const dbPromise = require('../db');
 
 class PropertyAmenity {
+  
   static async create(propertyAmenity) {
+
+    const db = await dbPromise;
+
     const query = `
       INSERT INTO PropertyAmenities (PropertyID, AmenityID)
       VALUES (?, ?)
@@ -21,6 +25,9 @@ class PropertyAmenity {
   }
 
   static async findByPropertyId(propertyId) {
+
+    const db = await dbPromise;
+
     const query = `
       SELECT * FROM PropertyAmenities WHERE PropertyID = ?
     `;
@@ -36,6 +43,9 @@ class PropertyAmenity {
   }
 
   static async deleteByPropertyId(propertyId) {
+
+    const db = await dbPromise;
+
     const query = `
       DELETE FROM PropertyAmenities WHERE PropertyID = ?
     `;
