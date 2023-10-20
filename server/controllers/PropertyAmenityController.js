@@ -3,11 +3,16 @@ const Amenity = require('../model/Amenity');
 
 class PropertyAmenityController {
   static async createPropertyAmenity(req, res) {
+
+    console.log('createPropertyAmenity is being called :'); // Log the amenity object
+
     try {
       const { PropertyID, AmenityID } = req.body;
 
       // Check if the Amenity exists
       const amenity = await Amenity.findById(AmenityID);
+      console.log('Amenity:', amenity); // Log the amenity object
+
       if (!amenity) {
         return res.status(404).json({ error: 'Amenity not found' });
       }
@@ -27,6 +32,9 @@ class PropertyAmenityController {
   }
 
   static async getPropertyAmenitiesByPropertyId(req, res) {
+
+    console.log('getPropertyAmenitiesByPropertyId is being called :'); // Log the amenity object
+
     try {
       const { propertyId } = req.params;
 
