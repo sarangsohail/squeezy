@@ -10,3 +10,4 @@ router.delete('/property-amenities/:propertyId', PropertyAmenityController.delet
 
 
 module.exports = router;
+
